@@ -162,6 +162,9 @@ public class VideoViewActivity extends AppCompatActivity {
                             if (Objects.equals(image.getImageUrl(), VideoURL)) {
                                 if (image.getPassword().equals(password_)) {
                                     onOutput(null, image.getMessage());
+                                }else {
+                                    dialog.dismiss();
+                                    Toast.makeText(VideoViewActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
