@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "339733029651",
+    "firebase_url": "https://chat-2ae27-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chat-2ae27",
+    "storage_bucket": "chat-2ae27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339733029651:android:99a93088b0b51a7157f0e6",
+        "android_client_info": {
+          "package_name": "com.hack.securechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339733029651-ninil3fp28qqr4iblm91f6nsaufd7lfh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hack.securechat",
+            "certificate_hash": "17b28d6191c110a0d679f9acf7a1f593fd10882b"
+          }
+        },
+        {
+          "client_id": "339733029651-0ialqja1bofb47spqoe8hkpfqi8ud8uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiLq5tTWkcCSzZtALB0rEDBrKbKxcXBLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339733029651-0ialqja1bofb47spqoe8hkpfqi8ud8uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

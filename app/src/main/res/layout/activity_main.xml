@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    tools:context=".MainActivity"
+    android:background="@color/background"
+    android:verticalScrollbarPosition="defaultPosition">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+
+            android:background="@color/background"
+            android:id="@+id/bar"
+            >
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapseActionView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/coral"
+                app:layout_scrollFlags="scroll"
+
+                app:contentScrim="@color/background"
+                >
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:layout_collapseMode="none"
+                    android:layout_width="match_parent"
+                    android:foregroundTint="@color/white"
+                    android:layout_height="?attr/actionBarSize"
+
+                    >
+
+                    <ProgressBar
+                        android:id="@+id/network_check"
+                        android:layout_width="25sp"
+                        android:layout_height="25sp"
+                        android:layout_marginStart="10dp"
+
+                        android:rotation="@integer/google_play_services_version" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/network_txt"
+                        android:text="Waiting for Network"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="10dp"/>
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:transitionName="main_image"
+                        android:id="@+id/DP"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/username"
+                        android:visibility="gone"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_marginStart="25dp"/>
+
+
+
+
+
+                </androidx.appcompat.widget.Toolbar>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+
+            <!--
+
+            <com.google.android.material.tabs.TabLayout
+                android:layout_width="match_parent"
+                android:id="@+id/tablayout"
+                android:layout_height="wrap_content"
+                android:background="@color/coral"
+                app:tabSelectedTextColor="#fff"
+                android:visibility="gone"
+                app:tabIndicatorColor="#fff"
+                app:tabTextColor="@color/background_white"/>
+                -->
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+
+            android:layout_below="@+id/bar"
+            android:layout_above="@+id/tab">
+
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="20dp"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                android:id="@+id/viewPager"
+                />
+
+
+        </RelativeLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+    <me.majiajie.pagerbottomtabstrip.PageNavigationView
+        android:id="@+id/bottom"
+        android:elevation="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/LightCoral"
+        android:layout_alignParentBottom="true"
+
+        />
+
+
+
+
+
+
+</RelativeLayout>

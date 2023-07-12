@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    tools:context=".SetupActivity">
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30sp"
+        app:cardCornerRadius="15dp"
+        android:layout_marginHorizontal="20dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                android:id="@+id/DP"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="100dp"
+                android:src="@drawable/clicky"
+
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/username_item"
+                android:layout_height="90dp"
+                app:counterEnabled="true"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                android:layout_marginHorizontal="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/DP"
+                app:counterMaxLength="30"
+                >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:maxLength="30"
+                    android:layout_height="60dp"
+                    android:hint="Username"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:id="@+id/next"
+                android:background="@drawable/button"
+                android:text="Next"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/username_item"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/white"/>
+
+
+
+        </RelativeLayout>
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EncryptVideo"
+    android:background="@color/coral">
+
+
+
+    <RelativeLayout
+        android:id="@+id/SourceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/box_back"
+        android:layout_marginHorizontal="30dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/Source_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selected Video"
+            android:textSize="25sp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"/>
+
+        <RelativeLayout
+            android:id="@+id/videoMainView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Source_Title"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="8dp">
+            <VideoView
+                android:id="@+id/videoView"
+
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/next"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/videoMainView"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_back"
+            android:backgroundTint="@color/DarkCoral"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/TypeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:visibility="gone"
+        android:background="@drawable/box_back"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/title_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:layout_marginTop="20dp"
+            android:text="Select Type"/>
+
+        <RadioGroup
+
+            android:id="@+id/medium"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/title_type"
+            android:layout_marginHorizontal="15dp">
+            <RadioButton
+                android:id="@+id/txt"
+                android:layout_weight="0.5"
+                android:layout_marginStart="10dp"
+                android:layout_width="0dp"
+                android:textSize="20sp"
+
+                android:layout_height="wrap_content"
+                android:onClick="onReminderSelect"
+                android:text="Text"/>
+            <RadioButton
+                android:id="@+id/img"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:textSize="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_height="wrap_content"
+                android:onClick="onReminderSelect"
+                android:text="Image"/>
+
+
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/TypeNext"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_back"
+            android:layout_below="@+id/medium"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/DarkCoral"
+            android:textColor="@color/white"/>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/SelectTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/box_back"
+        android:layout_marginHorizontal="30dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginHorizontal="25dp"
+            app:boxBackgroundMode="outline"
+            app:counterMaxLength="50"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="10dp"
+            android:visibility="visible"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            android:hint="Write what you want to hide"
+            app:counterEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_txt"
+
+                android:inputType="textMultiLine"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/TextNext"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_back"
+            android:layout_below="@+id/text"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/DarkCoral"
+            android:textColor="@color/white"/>
+
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/SelectImageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:background="@drawable/box_back"
+        android:layout_marginHorizontal="30dp">
+
+        <TextView
+            android:id="@+id/sec_image_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:text="Select Image to hide"
+            android:textSize="25sp"
+            android:layout_marginTop="20dp"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black"/>
+
+
+
+        <ImageView
+            android:id="@+id/sec_image"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="25sp"
+            android:layout_below="@+id/sec_image_txt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/select_image"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Select Image"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_back"
+            android:backgroundTint="@color/coral"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sec_image"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/go_to_input"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select_image"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_back"
+            android:backgroundTint="@color/DarkCoral"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/text_inp_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:background="@drawable/box_back"
+        android:layout_marginHorizontal="20dp">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxBackgroundColor="@color/white"
+            android:layout_marginHorizontal="25dp"
+            app:boxBackgroundMode="outline"
+            android:hint="Enter new password to hide"
+            app:counterEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/password_txt"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/disclaimer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Warning"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/password"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:fontFamily="@font/nunito_sans"
+            android:layout_marginHorizontal="30dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/disclaimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="We don't save passwords, so if you forget it, you won't be able to decode the data."
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/disclaimer_title"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/nunito_sans"
+            android:layout_marginHorizontal="30dp"
+            android:layout_centerHorizontal="true"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/send"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Hide and Send"
+            android:textAllCaps="false"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_back"
+            android:layout_below="@+id/disclaimer"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/DarkCoral"
+            android:textColor="@color/white"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

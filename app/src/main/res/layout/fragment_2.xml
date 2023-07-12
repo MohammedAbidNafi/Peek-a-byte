@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".WelcomeScreen.Fragment2"
+    android:background="@color/background">
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:id="@+id/applogo"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        app:lottie_rawRes="@raw/algorithm"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How it works?"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:textSize="30dp"
+        android:fontFamily="@font/nunito_sans"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_below="@+id/applogo"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="defaultPosition"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/nunito_sans"
+            android:justificationMode="inter_word"
+            android:text="PeekaByte uses advanced algorithms to hide texts and images inside other images. It is a highly secure and reliable application in which hidden messages can be retrieved only with a password given by you and can only decoded with password"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="22dp" />
+
+    </ScrollView>
+
+
+</RelativeLayout>
