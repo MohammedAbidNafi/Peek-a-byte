@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "339733029651-h1074gnpp6ue16in9c30doi3rnup25hn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hack.securechat",
+            "certificate_hash": "720f220bb145bcf09188fd26da366fad147d642c"
+          }
+        },
+        {
           "client_id": "339733029651-ninil3fp28qqr4iblm91f6nsaufd7lfh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
