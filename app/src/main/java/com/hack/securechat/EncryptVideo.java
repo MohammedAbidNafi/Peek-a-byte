@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -20,18 +21,25 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -82,6 +90,10 @@ public class EncryptVideo extends AppCompatActivity {
     FirebaseUser firebaseUser;
     RelativeLayout SourceLayout,TypeLayout,SelectTextLayout,SelectImageLayout,PassInpLayout;
 
+    StorageReference storageReference;
+
+    DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,12 +105,17 @@ public class EncryptVideo extends AppCompatActivity {
         TypeNext = findViewById(R.id.TypeNext);
         TextNext = findViewById(R.id.TextNext);
         next = findViewById(R.id.next);
+        send =findViewById(R.id.send);
 
         TypeLayout = findViewById(R.id.TypeLayout);
         SelectTextLayout = findViewById(R.id.SelectTextLayout);
         SelectImageLayout = findViewById(R.id.SelectImageLayout);
         PassInpLayout = findViewById(R.id.text_inp_layout);
         select_image = findViewById(R.id.select_image);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Hiding....");
 
         SourceLayout.setVisibility(View.VISIBLE);
 
@@ -115,11 +132,13 @@ public class EncryptVideo extends AppCompatActivity {
         img_btn = findViewById(R.id.img);
         sec_image = findViewById(R.id.sec_image);
 
+        storageReference = FirebaseStorage.getInstance().getReference("Chats").child(firebaseUser.getUid());
+
 
         intent = getIntent();
         dialog = new Dialog(this);
 
-        userid = intent.getStringExtra("sender");
+        userid = intent.getStringExtra("userid");
 
         VideoURI = intent.getStringExtra("path");
 
@@ -136,7 +155,7 @@ public class EncryptVideo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SourceLayout.setVisibility(View.GONE);
-                TypeLayout.setVisibility(View.VISIBLE);
+                SelectTextLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -146,11 +165,16 @@ public class EncryptVideo extends AppCompatActivity {
                 TypeLayout.setVisibility(View.GONE);
 
 
+                /*
                 if(!text_or_not){
                     SelectImageLayout.setVisibility(View.VISIBLE);
                 }else {
                     SelectTextLayout.setVisibility(View.VISIBLE);
                 }
+
+                 */
+
+                SelectTextLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -176,16 +200,82 @@ public class EncryptVideo extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*
                 if(text_or_not){
                     sendVideoWTxt(text.getText().toString(),password.getText().toString());
                 }else {
                     sendVideoWimg(password.getText().toString());
                 }
+
+                 */
+
+                uploadVideo_();
             }
         });
 
 
 
+
+    }
+
+    private void uploadVideo_() {
+
+        progressDialog.show();
+
+        StorageReference filepath = storageReference.child(System.currentTimeMillis()
+                + "." + getFileExtension(Uri.parse(VideoURI)));
+
+
+
+        StorageTask uploadTask = filepath.putFile(Uri.fromFile(new File(VideoURI)));
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return filepath.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+
+                    Calendar calendar = Calendar.getInstance();
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy  HH:mm");
+                    String timestamp = simpleDateFormat.format(calendar.getTime());
+
+                    String sender = firebaseUser.getUid();
+                    String receiver = userid;
+
+                    Uri downloadUri = task.getResult();
+                    assert downloadUri != null;
+                    String mUri = downloadUri.toString();
+
+                    databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("sender", sender);
+                    hashMap.put("receiver", receiver);
+                    hashMap.put("type","video");
+                    hashMap.put("message",text.getText().toString());
+                    hashMap.put("password",password.getText().toString());
+                    hashMap.put("imageUrl", mUri);
+                    hashMap.put("timestamp", timestamp);
+                    databaseReference.push().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<Void> task) {
+                            finish();
+                            progressDialog.dismiss();
+                        }
+                    });
+
+
+
+                }
+
+            }
+    });
 
     }
 
@@ -489,5 +579,11 @@ public class EncryptVideo extends AppCompatActivity {
 
         String path = MediaStore.Images.Media.insertImage(getContentResolver(), src, String.valueOf(Calendar.getInstance().getTime()), null);
         return Uri.parse(path);
+    }
+
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = EncryptVideo.this.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 }

@@ -348,7 +348,7 @@ public class DecodeActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK && data != null) {
             ImageURI = data.getData();
             try {

@@ -18,10 +18,12 @@ public class Image {
 
     String thumbnail;
 
+    String message;
 
 
 
-    public Image(String sender, String receiver, String imageUrl,String type, String password, String timestamp,String thumbnail, String isSeen) {
+
+    public Image(String sender, String receiver, String imageUrl,String type,String message, String password, String timestamp,String thumbnail, String isSeen) {
         this.sender = sender;
         this.receiver = receiver;
         this.imageUrl = imageUrl;
@@ -30,6 +32,7 @@ public class Image {
         this.Password = password;
         this.timestamp = timestamp;
         this.isSeen = isSeen;
+        this.message = message;
     }
 
     public Image() {
@@ -50,6 +53,14 @@ public class Image {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getImageUrl() {

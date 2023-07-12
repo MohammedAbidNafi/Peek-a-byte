@@ -1,5 +1,6 @@
 package com.hack.securechat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -26,7 +27,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonObject;
+import com.hack.securechat.Model.Image;
+import com.hack.securechat.Model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +43,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -51,7 +61,7 @@ public class VideoViewActivity extends AppCompatActivity {
 
     Intent intent;
 
-    AppCompatButton share,unlock;
+    AppCompatButton share, unlock;
 
     VideoView videoView;
 
@@ -106,17 +116,16 @@ public class VideoViewActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
     private void onPassword() {
 
-        CardView password_card,output_card;
+        CardView password_card, output_card;
 
         AppCompatButton unlock;
         AppCompatEditText password_edtxt;
         dialog.setContentView(R.layout.message_popup);
+
 
         ProgressBar SHOW_PROGRESS;
 
@@ -126,7 +135,6 @@ public class VideoViewActivity extends AppCompatActivity {
         password_edtxt = dialog.findViewById(R.id.password);
 
         SHOW_PROGRESS = dialog.findViewById(R.id.SHOW_PROGRESS);
-
 
 
         password_card.setVisibility(View.VISIBLE);
@@ -141,79 +149,35 @@ public class VideoViewActivity extends AppCompatActivity {
 
                 String password_ = password_edtxt.getText().toString();
                 //Log.d("url",ImageUrl);
-                Log.d("pass",password_);
+                Log.d("pass", password_);
 
-                RequestBody url = RequestBody.create(MediaType.parse("text/plain"), VideoURL);
-                RequestBody password = RequestBody.create(MediaType.parse("text/plain"), password_);
-
-
-                JsonObject json = new JsonObject();
-                json.addProperty("url", VideoURL);
-                json.addProperty("password",password_);
-
-                Call<ResponseBody> call = service.DecodeImage(json);
-                call.enqueue(new Callback<ResponseBody>() {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
+                reference.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        // Handle success
-                        try {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if (response.isSuccessful() && response.body() != null){
-                                String contentType = response.headers().get("Content-Type");
-                                Log.d("ContentType", contentType);
-                                if (contentType != null && contentType.equals("image/png")) {
-                                    // The response is an image
-                                    InputStream inputStream = response.body().byteStream();
-                                    Bitmap bmp = BitmapFactory.decodeStream(inputStream);
-                                    img_txt = 1;
-                                    onOutput(bmp,"123");
+                        for (DataSnapshot snapshot1 : dataSnapshot.getChildren()) {
+                            Image image = snapshot1.getValue(Image.class);
 
-                                } else if (contentType != null && contentType.equals("application/json; charset=utf-8")) {
-                                    // The response is JSON
-
-                                    Log.d("testing","Works");
-                                    String responseBody = response.body().string();
-                                    JSONObject jsonObject = new JSONObject(responseBody);
-                                    String message = jsonObject.getString("message");
-                                    String error = jsonObject.getString("error");
-                                    img_txt = 2;
-                                    Toast.makeText(VideoViewActivity.this, error, Toast.LENGTH_SHORT).show();
-
-                                    if (message.equals("")) {
-                                        Toast.makeText(VideoViewActivity.this, error, Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    } else {
-                                        Toast.makeText(VideoViewActivity.this, error, Toast.LENGTH_SHORT).show();
-                                        onOutput(null,message);
-
-
-                                    }
-                                    Log.d("message", message);
-
-
-                                }else {
-                                    Toast.makeText(VideoViewActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            if (Objects.equals(image.getImageUrl(), VideoURL)) {
+                                if (image.getPassword().equals(password_)) {
+                                    onOutput(null, image.getMessage());
                                 }
-                            }else {
-                                Toast.makeText(VideoViewActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
 
-
-
-
-
-                        } catch (JSONException | IOException e) {
-                            throw new RuntimeException(e);
                         }
+
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        // Handle failure
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
 
+
             }
+
         });
 
         dialog.getWindow().setGravity(Gravity.CENTER);
@@ -226,9 +190,9 @@ public class VideoViewActivity extends AppCompatActivity {
 
     private void onOutput(Bitmap bitmap, String message) {
 
-        CardView password_card,output_card;
+        CardView password_card, output_card;
 
-        AppCompatButton copy,share;
+        AppCompatButton copy, share;
 
         TextView ouput_txt;
 
@@ -253,7 +217,7 @@ public class VideoViewActivity extends AppCompatActivity {
         ouput_txt = dialog.findViewById(R.id.output);
 
 
-        if(message.equals("123")){
+        if (message.equals("123")) {
             output_image.setImageBitmap(bitmap);
             ouput_txt.setVisibility(View.GONE);
         }
@@ -262,11 +226,9 @@ public class VideoViewActivity extends AppCompatActivity {
         ouput_txt.setText(message);
 
 
-
-
-        if(img_txt == 1){
+        if (img_txt == 1) {
             copy.setVisibility(View.GONE);
-        }else {
+        } else {
             copy.setVisibility(View.VISIBLE);
         }
 
@@ -274,8 +236,8 @@ public class VideoViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (img_txt == 2){
-                    setClipboard(getApplicationContext(),message);
+                if (img_txt == 2) {
+                    setClipboard(getApplicationContext(), message);
                 }
 
             }
@@ -285,7 +247,7 @@ public class VideoViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(img_txt == 1){
+                if (img_txt == 1) {
                     Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("video/*");
                     ContentValues values = new ContentValues();
@@ -307,7 +269,7 @@ public class VideoViewActivity extends AppCompatActivity {
                     startActivity(Intent.createChooser(i, "Share Video"));
                 }
 
-                if(img_txt == 2){
+                if (img_txt == 2) {
                     Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("text/plain");
                     String sAux = message;
@@ -332,6 +294,6 @@ public class VideoViewActivity extends AppCompatActivity {
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
         finish();
-        Toast.makeText(context,"Text has been copied to clipboard",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Text has been copied to clipboard", Toast.LENGTH_SHORT).show();
     }
 }

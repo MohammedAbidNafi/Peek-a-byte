@@ -107,7 +107,7 @@ public class EncryptActivity extends AppCompatActivity {
         SourceLayout.setVisibility(View.VISIBLE);
 
 
-        progressDialog = new ProgressDialog(this);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Hiding....");
