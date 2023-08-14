@@ -132,7 +132,7 @@ public class DecodeActivity extends AppCompatActivity {
                 interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-                service = new Retrofit.Builder().baseUrl("http://116.202.48.221:8989").client(client).build().create(Service.class);
+                service = new Retrofit.Builder().baseUrl("http://116.202.48.236:8989").client(client).build().create(Service.class);
 
                 RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
                 MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);

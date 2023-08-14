@@ -277,7 +277,7 @@ public class EncryptActivity extends AppCompatActivity {
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
         Uri image = getImageUri(bmp, Bitmap.CompressFormat.PNG,100);
-        service = new Retrofit.Builder().baseUrl("http://116.202.48.221:8989").client(client).build().create(Service.class);
+        service = new Retrofit.Builder().baseUrl("http://116.202.48.236:8989").client(client).build().create(Service.class);
         android.database.Cursor cursor = getContentResolver().query(image, filePathColumn, null, null, null);
         if (cursor == null)
             return;
